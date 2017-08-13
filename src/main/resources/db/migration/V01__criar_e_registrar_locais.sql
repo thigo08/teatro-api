@@ -11,3 +11,4 @@ CREATE TABLE local (
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro dos Bancários', 'Setor EQS 314/315 Bloco A', 'Asa Sul', 'Brasília', 'DF', '(61)3262-9090');
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro UNIP', 'SGAS 913', 'Asa Sul', 'Brasília', 'DF', '(61)3041-5581');
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro da Caesb', '1846, Col. Agrícola', 'Aguás Claras', 'Brasília', 'DF', '(61)3213-7204');
+INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro Marista', '708 Sul', 'Asa Sul', 'Brasília', 'DF', '(61)3213-7204');
