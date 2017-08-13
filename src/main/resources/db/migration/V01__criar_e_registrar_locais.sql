@@ -1,12 +1,12 @@
 CREATE TABLE local (
-	id BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+	id SERIAL PRIMARY KEY,
 	nome VARCHAR(50),
 	endereco VARCHAR(50),
 	complemento VARCHAR(50),
 	cidade VARCHAR(50),
 	estado VARCHAR(50),
 	telefone VARCHAR(50)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
 
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro dos Bancários', 'Setor EQS 314/315 Bloco A', 'Asa Sul', 'Brasília', 'DF', '(61)3262-9090');
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro UNIP', 'SGAS 913', 'Asa Sul', 'Brasília', 'DF', '(61)3041-5581');
