@@ -6,7 +6,7 @@ CREATE TABLE local (
 	cidade VARCHAR(50),
 	estado VARCHAR(50),
 	telefone VARCHAR(50)
-)
+);
 
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro dos Bancários', 'Setor EQS 314/315 Bloco A', 'Asa Sul', 'Brasília', 'DF', '(61)3262-9090');
 INSERT INTO local (nome, endereco, complemento, cidade, estado, telefone) values ('Teatro UNIP', 'SGAS 913', 'Asa Sul', 'Brasília', 'DF', '(61)3041-5581');
