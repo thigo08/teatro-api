@@ -29,6 +29,10 @@ public class Local {
 
 	private String telefone;
 
+	private String latitude;
+
+	private String longitude;
+
 	@JsonBackReference
 	@OneToOne(mappedBy = "local")
 	private Evento evento;
@@ -87,6 +91,22 @@ public class Local {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 	public Evento getEvento() {

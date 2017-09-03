@@ -26,6 +26,8 @@ public class Evento {
 
 	private String descricao;
 
+	private String imagem;
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Agenda> listaAgenda;
@@ -57,6 +59,14 @@ public class Evento {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	public List<Agenda> getListaAgenda() {
