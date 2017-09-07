@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -28,12 +30,15 @@ public class Evento {
 
 	private String imagem;
 
+	@Enumerated(EnumType.STRING)
+	private Genero genero;
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Agenda> listaAgenda;
 
 	@JsonManagedReference
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_local")
 	private Local local;
 
@@ -71,6 +76,14 @@ public class Evento {
 
 	public List<Agenda> getListaAgenda() {
 		return listaAgenda;
+	}
+
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
 	}
 
 	public void setListaAgenda(List<Agenda> listaAgenda) {

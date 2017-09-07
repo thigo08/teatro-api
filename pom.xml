@@ -45,13 +45,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
 		<!-- Postgres -->
 		<dependency>
 			<groupId>org.postgresql</groupId>

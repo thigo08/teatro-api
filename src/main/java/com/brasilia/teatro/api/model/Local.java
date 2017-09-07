@@ -1,10 +1,13 @@
 package com.brasilia.teatro.api.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -34,8 +37,8 @@ public class Local {
 	private String longitude;
 
 	@JsonBackReference
-	@OneToOne(mappedBy = "local")
-	private Evento evento;
+	@OneToMany(mappedBy = "local", cascade = { CascadeType.ALL }, orphanRemoval = true)
+	private List<Evento> listaEvento;
 
 	public Long getId() {
 		return id;
@@ -109,12 +112,12 @@ public class Local {
 		this.longitude = longitude;
 	}
 
-	public Evento getEvento() {
-		return evento;
+	public List<Evento> getListaEvento() {
+		return listaEvento;
 	}
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
+	public void setListaEvento(List<Evento> listaEvento) {
+		this.listaEvento = listaEvento;
 	}
 
 	@Override
