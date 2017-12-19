@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "local")
@@ -36,8 +37,8 @@ public class Local {
 
 	private String longitude;
 
-	@JsonBackReference
-	@OneToMany(mappedBy = "local", cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@JsonIgnore
+	@OneToMany(mappedBy = "local", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Evento> listaEvento;
 
 	public Long getId() {

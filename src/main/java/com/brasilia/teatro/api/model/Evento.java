@@ -37,7 +37,6 @@ public class Evento {
 	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Agenda> listaAgenda;
 
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_local")
 	private Local local;
