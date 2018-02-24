@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.brasilia.teatro.api.event.RecursoCriadoEvent;
 import com.brasilia.teatro.api.model.Evento;
 import com.brasilia.teatro.api.repository.EventoRepository;
+import com.brasilia.teatro.api.repository.filter.EventoFilter;
 
 @RestController
 @RequestMapping("/eventos")
@@ -34,6 +35,11 @@ public class EventoResource {
 	public List<Evento> listar() {
 		return eventoRepository.findAll();
 	}
+	
+	@GetMapping(params = "filtrar")
+	public List<Evento> listarEventoFiltro(EventoFilter eventoFilter) {
+		return eventoRepository.filtrar(eventoFilter);
+	}
 
 	@GetMapping(params = "peagle")
 	public Page<Evento> listarPageable(Pageable pageable) {
@@ -47,6 +53,7 @@ public class EventoResource {
 
 	@PostMapping
 	public ResponseEntity<Evento> criar(@RequestBody Evento evento, HttpServletResponse response) {
+		// TODO  Persistir com a lista Agenda
 		Evento eventoSalvo = eventoRepository.save(evento);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, eventoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
