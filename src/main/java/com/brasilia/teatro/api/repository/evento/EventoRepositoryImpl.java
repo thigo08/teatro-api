@@ -47,19 +47,19 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 
 		return new PageImpl<>(query.getResultList(), pageable, total());
 	}
-	
+
 	@Override
 	public List<Evento> filtrar(EventoFilter eventoFilter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
 		Root<Evento> root = criteria.from(Evento.class);
-		
+
 		Predicate[] predicates = criarRestricoes(eventoFilter, builder, root);
 		criteria.where(predicates);
-		
+
 		TypedQuery<Evento> query = manager.createQuery(criteria);
 		// adicionarRestricoesDePaginacao(query, pageable);
-		
+
 		return query.getResultList();
 	}
 
@@ -80,16 +80,34 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 		criteria.select(builder.count(root));
 		return manager.createQuery(criteria).getSingleResult();
 	}
-	
-	private Predicate[] criarRestricoes(EventoFilter eventoFilter, CriteriaBuilder builder,
-			Root<Evento> root) {
+
+	private Predicate[] criarRestricoes(EventoFilter eventoFilter, CriteriaBuilder builder, Root<Evento> root) {
 		List<Predicate> predicates = new ArrayList<>();
-		
-		if (!StringUtils.isEmpty(eventoFilter.getOrdenacao())) {
-			predicates.add(builder.like(
-					builder.lower(root.get("nome")), "%" + eventoFilter.getOrdenacao().toLowerCase() + "%"));
+
+		if (!StringUtils.isEmpty(eventoFilter.getNome())) {
+			predicates.add(
+					builder.like(builder.lower(root.get("nome")), "%" + eventoFilter.getNome().toLowerCase() + "%"));
 		}
-		
+
+		if (!StringUtils.isEmpty(eventoFilter.getDescricao())) {
+			predicates.add(builder.like(builder.lower(root.get("descricao")),
+					"%" + eventoFilter.getDescricao().toLowerCase() + "%"));
+		}
+
+		if (!StringUtils.isEmpty(eventoFilter.getGenero())) {
+			predicates.add(builder.equal(root.get("genero"), eventoFilter.getGenero()));
+		}
+
+		if (!StringUtils.isEmpty(eventoFilter.getNomeLocal())) {
+			predicates.add(builder.like(builder.lower(root.get("local").get("nome")),
+					"%" + eventoFilter.getNomeLocal().toLowerCase() + "%"));
+		}
+
+		if (!StringUtils.isEmpty(eventoFilter.getEstadoLocal())) {
+			predicates.add(builder.like(builder.lower(root.get("local").get("estado")),
+					"%" + eventoFilter.getEstadoLocal().toLowerCase() + "%"));
+		}
+
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 }
