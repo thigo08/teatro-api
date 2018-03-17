@@ -35,6 +35,10 @@ GET http://localhost:8080/eventos?filtrar&nome=evento&descricao=descricao&genero
 ``` html
 GET http://localhost:8080/locais
 ```
+- Buscar Local por ID
+``` html
+GET http://localhost:8080/locais/{codigo}
+```
 - Inserir Local
 ``` html
 POST http://localhost:8080/locais
@@ -44,7 +48,7 @@ POST http://localhost:8080/locais
 DELETE http://localhost:8080/locais/{codigo}
 ```
 ### Usuários
-- Listar Usuário por ID
+- Buscar Usuário por ID
 ``` html
 GET http://localhost:8080/usuarios/{codigo}
 ```
