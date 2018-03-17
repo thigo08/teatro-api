@@ -37,9 +37,10 @@ public class EventoResource {
 		return eventoRepository.findAll();
 	}
 
-	@GetMapping("/{id}")
-	public Evento buscarUsuario(@PathVariable Long id) {
-		return eventoRepository.findOne(id);
+	@GetMapping("/{codigo}")
+	public ResponseEntity<Evento> buscarPeloCodigo(@PathVariable Long codigo) {
+		Evento evento = eventoRepository.findOne(codigo);
+		return evento != null ? ResponseEntity.ok(evento) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping(params = "filtrar")

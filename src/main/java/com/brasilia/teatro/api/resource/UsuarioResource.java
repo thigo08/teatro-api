@@ -39,9 +39,10 @@ public class UsuarioResource {
 		return usuarioRepository.findAll();
 	}
 
-	@GetMapping("/{id}")
-	public Usuario buscarUsuario(@PathVariable Long id) {
-		return usuarioRepository.findOne(id);
+	@GetMapping("/{codigo}")
+	public ResponseEntity<Usuario> buscarPeloCodigo(@PathVariable Long codigo) {
+		Usuario usuario = usuarioRepository.findOne(codigo);
+		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
@@ -51,9 +52,9 @@ public class UsuarioResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-		Usuario usuarioSalvo = usuarioService.atualizar(id, usuario);
+	@PutMapping("/{codigo}")
+	public ResponseEntity<Usuario> atualizar(@PathVariable Long codigo, @RequestBody Usuario usuario) {
+		Usuario usuarioSalvo = usuarioService.atualizar(codigo, usuario);
 		return ResponseEntity.ok(usuarioSalvo);
 	}
 
