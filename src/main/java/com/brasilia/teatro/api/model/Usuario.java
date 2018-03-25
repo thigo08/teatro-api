@@ -31,10 +31,10 @@ public class Usuario {
 
 	private String foto;
 
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "Usuario_Evento", joinColumns = { @JoinColumn(name = "usuario_id ") }, inverseJoinColumns = {
-			@JoinColumn(name = "evento_id") })
-	Set<Evento> eventos = new HashSet<>();
+//	@ManyToMany(cascade = { CascadeType.ALL })
+//	@JoinTable(name = "Usuario_Evento", joinColumns = { @JoinColumn(name = "usuario_id ") }, inverseJoinColumns = {
+//			@JoinColumn(name = "evento_id") })
+//	Set<Evento> eventos = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -84,13 +84,13 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public Set<Evento> getEventos() {
-		return eventos;
-	}
-
-	public void setEventos(Set<Evento> eventos) {
-		this.eventos = eventos;
-	}
+//	public Set<Evento> getEventos() {
+//		return eventos;
+//	}
+//
+//	public void setEventos(Set<Evento> eventos) {
+//		this.eventos = eventos;
+//	}
 
 	@Override
 	public int hashCode() {

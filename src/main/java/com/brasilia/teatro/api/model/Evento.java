@@ -1,18 +1,17 @@
 package com.brasilia.teatro.api.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,8 +43,11 @@ public class Evento {
 	@JoinColumn(name = "id_local")
 	private Local local;
 	
-	@ManyToMany(mappedBy = "eventos")
-    private Set<Usuario> usuarios = new HashSet<>();
+//	@ManyToMany(mappedBy = "eventos")
+//    private Set<Usuario> usuarios = new HashSet<>();
+	
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    private List<Favorito> favoritos = new ArrayList<Favorito>();
 
 	public Long getId() {
 		return id;
