@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.brasilia.teatro.api.event.RecursoCriadoEvent;
 import com.brasilia.teatro.api.model.Usuario;
 import com.brasilia.teatro.api.repository.UsuarioRepository;
+import com.brasilia.teatro.api.repository.filter.UsuarioFilter;
 import com.brasilia.teatro.api.service.UsuarioService;
 
 @RestController
@@ -43,6 +44,11 @@ public class UsuarioResource {
 	public ResponseEntity<Usuario> buscarPeloCodigo(@PathVariable Long codigo) {
 		Usuario usuario = usuarioRepository.findOne(codigo);
 		return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+	}
+
+	@GetMapping(params = "filtrar")
+	public Usuario usuarioFiltro(UsuarioFilter usuarioFilter) {
+		return usuarioRepository.filtrar(usuarioFilter);
 	}
 
 	@PostMapping
