@@ -17,15 +17,12 @@ public class Favorito {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String uid;
+
 	@ManyToOne
 	@JoinColumn(name = "fk_evento_id")
 	@NotNull
 	private Evento evento;
-
-	@ManyToOne
-	@JoinColumn(name = "fk_usuario_id")
-	@NotNull
-	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -35,20 +32,20 @@ public class Favorito {
 		this.id = id;
 	}
 
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
 	public Evento getEvento() {
 		return evento;
 	}
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	@Override

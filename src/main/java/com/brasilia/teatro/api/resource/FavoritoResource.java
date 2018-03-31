@@ -36,7 +36,7 @@ public class FavoritoResource {
 	}
 
 	@GetMapping("/{codigo}")
-	public List<Evento> buscarEventosFavoritoPorUsuario(@PathVariable Long codigo) {
+	public List<Evento> buscarEventosFavoritoPorUsuario(@PathVariable String codigo) {
 		return favoritoRepository.buscarEventosFavoritoPorUsuario(codigo);
 	}
 

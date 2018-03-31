@@ -20,14 +20,14 @@ public class FavoritoRepositoryImpl implements FavoritoRepositoryQuery {
 	private EntityManager manager;
 
 	@Override
-	public List<Evento> buscarEventosFavoritoPorUsuario(Long codigoUsuario) {
+	public List<Evento> buscarEventosFavoritoPorUsuario(String codigoUsuario) {
 
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
 		Root<Evento> root = criteria.from(Evento.class);
 		Join<Evento, Favorito> join = root.join("favoritos");
 
-		Predicate predicate = builder.equal(join.get("usuario"), codigoUsuario);
+		Predicate predicate = builder.equal(join.get("uid"), codigoUsuario);
 		criteria.where(predicate);
 
 		TypedQuery<Evento> query = manager.createQuery(criteria);

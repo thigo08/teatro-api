@@ -6,6 +6,6 @@ import com.brasilia.teatro.api.model.Evento;
 
 public interface FavoritoRepositoryQuery {
 
-	public List<Evento> buscarEventosFavoritoPorUsuario(Long codigoUsuario);
+	public List<Evento> buscarEventosFavoritoPorUsuario(String codigoUsuario);
 
 }
