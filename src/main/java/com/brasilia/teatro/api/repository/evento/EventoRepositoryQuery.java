@@ -17,4 +17,6 @@ public interface EventoRepositoryQuery {
 	// TODO Implementar filtro
 	public List<Evento> filtrar(EventoFilter eventoFilter);
 
+	public List<Evento> listarEventos(String uid);
+
 }

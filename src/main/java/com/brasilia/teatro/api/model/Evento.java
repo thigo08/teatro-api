@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -42,12 +43,15 @@ public class Evento {
 	@ManyToOne
 	@JoinColumn(name = "id_local")
 	private Local local;
-	
-//	@ManyToMany(mappedBy = "eventos")
-//    private Set<Usuario> usuarios = new HashSet<>();
-	
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
-    private List<Favorito> favoritos = new ArrayList<Favorito>();
+
+	// @ManyToMany(mappedBy = "eventos")
+	// private Set<Usuario> usuarios = new HashSet<>();
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
+	private List<Favorito> favoritos = new ArrayList<Favorito>();
+
+	@Transient
+	private Boolean favoritado;
 
 	public Long getId() {
 		return id;
@@ -103,6 +107,14 @@ public class Evento {
 
 	public void setLocal(Local local) {
 		this.local = local;
+	}
+
+	public Boolean isFavoritado() {
+		return favoritado;
+	}
+
+	public void setFavoritado(Boolean favoritado) {
+		this.favoritado = favoritado;
 	}
 
 	@Override

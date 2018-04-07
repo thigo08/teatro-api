@@ -63,6 +63,25 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Evento> listarEventos(String uid) {
+		TypedQuery<Object[]> query = manager.createQuery(
+				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS f WHERE f.uid=:uid and f.evento.id = ev.id)  FROM Evento AS ev",
+				Object[].class);
+		query.setParameter("uid", uid);
+
+		List<Object[]> results = query.getResultList();
+		List<Evento> eventos = new ArrayList<>();
+
+		for (Object[] result : results) {
+			Evento ev = (Evento) result[0];
+			ev.setFavoritado((boolean) result[1]);
+
+			eventos.add(ev);
+		}
+		return eventos;
+	}
+
 	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
@@ -110,4 +129,5 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
+
 }
