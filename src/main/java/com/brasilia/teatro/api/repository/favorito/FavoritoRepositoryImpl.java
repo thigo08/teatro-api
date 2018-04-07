@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -25,19 +24,24 @@ public class FavoritoRepositoryImpl implements FavoritoRepositoryQuery {
 	private EntityManager manager;
 
 	@Override
-	public List<Evento> buscarEventosFavoritoPorUsuario(String codigoUsuario) {
+	public List<Evento> buscarEventosFavoritoPorUsuario(String uid) {
+		TypedQuery<Object[]> query = manager.createQuery(
+				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS fa WHERE fa.uid=:uid and fa.evento.id = ev.id) "
+						+ "FROM Evento AS ev, Favorito as f " 
+						+ "WHERE ev.id=f.evento.id AND f.uid=:uid",
+				Object[].class);
+		query.setParameter("uid", uid);
 
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
-		Root<Evento> root = criteria.from(Evento.class);
-		Join<Evento, Favorito> join = root.join("favoritos");
+		List<Object[]> results = query.getResultList();
+		List<Evento> eventos = new ArrayList<>();
 
-		Predicate predicate = builder.equal(join.get("uid"), codigoUsuario);
-		criteria.where(predicate);
+		for (Object[] result : results) {
+			Evento ev = (Evento) result[0];
+			ev.setFavoritado((boolean) result[1]);
 
-		TypedQuery<Evento> query = manager.createQuery(criteria);
-
-		return query.getResultList();
+			eventos.add(ev);
+		}
+		return eventos;
 	}
 
 	@Override
