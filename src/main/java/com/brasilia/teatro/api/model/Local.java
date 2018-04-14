@@ -37,6 +37,8 @@ public class Local {
 
 	private String longitude;
 
+	private String imagem;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "local", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Evento> listaEvento;
@@ -111,6 +113,14 @@ public class Local {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	public List<Evento> getListaEvento() {
