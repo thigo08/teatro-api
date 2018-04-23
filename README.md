@@ -9,6 +9,17 @@ This project was developed based on the:
 # API Endpoints
 Below are described the REST endpoints available that you can use to search for theaters.
 
+### Swagger
+- Swagger
+``` html
+http://localhost:8080/v2/api-docs
+```
+
+- Swagger UI
+``` html
+http://localhost:8080/swagger-ui.html
+```
+
 ### Eventos
 - Listar Eventos
 ``` html
