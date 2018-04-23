@@ -64,15 +64,19 @@ PUT http://localhost:8080/usuarios/{id}
 - Listar Favoritos
 ``` html
 GET http://localhost:8080/favorito
+```
 
 - Buscar Eventos Favoritados pelo Usuário
 ``` html
 GET http://localhost:8080/favorito/{codigo}
+```
 
 - Inserir Favorito
 ``` html
 POST http://localhost:8080/favorito
+```
 
 - Deletar Favorito
 ``` html
 DELETE http://localhost:8080/favorito
+```
