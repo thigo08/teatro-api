@@ -47,7 +47,7 @@ public class Evento {
 	// @ManyToMany(mappedBy = "eventos")
 	// private Set<Usuario> usuarios = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	private List<Favorito> favoritos = new ArrayList<Favorito>();
 
 	@Transient

@@ -14,8 +14,7 @@ public interface EventoRepositoryQuery {
 
 	public List<Evento> buscarPaginado(Pageable pageable);
 
-	// TODO Implementar filtro
-	public List<Evento> filtrar(EventoFilter eventoFilter);
+	public List<Evento> filtrar(String uid, EventoFilter eventoFilter);
 
 	public List<Evento> listarEventos(String uid);
 

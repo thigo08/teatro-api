@@ -36,9 +36,9 @@ public class EventoResource {
 	public List<Evento> listar() {
 		return eventoRepository.findAll();
 	}
-	
+
 	@GetMapping("/listar/{uid}")
-	public List<Evento> listarEventos(@PathVariable String uid){
+	public List<Evento> listarEventos(@PathVariable String uid) {
 		return eventoRepository.listarEventos(uid);
 	}
 
@@ -48,9 +48,9 @@ public class EventoResource {
 		return evento != null ? ResponseEntity.ok(evento) : ResponseEntity.notFound().build();
 	}
 
-	@GetMapping(params = "filtrar")
-	public List<Evento> listarEventoFiltro(EventoFilter eventoFilter) {
-		return eventoRepository.filtrar(eventoFilter);
+	@GetMapping(value = "/{uid}", params = "filtrar")
+	public List<Evento> listarEventoFiltro(@PathVariable String uid, EventoFilter eventoFilter) {
+		return eventoRepository.filtrar(uid, eventoFilter);
 	}
 
 	@GetMapping(params = "peagle")
@@ -65,7 +65,6 @@ public class EventoResource {
 
 	@PostMapping
 	public ResponseEntity<Evento> criar(@RequestBody Evento evento, HttpServletResponse response) {
-		// TODO Persistir com a lista Agenda
 		Evento eventoSalvo = eventoRepository.save(evento);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, eventoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);

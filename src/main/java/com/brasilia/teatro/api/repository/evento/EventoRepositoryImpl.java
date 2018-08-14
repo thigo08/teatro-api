@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import com.brasilia.teatro.api.model.Evento;
+import com.brasilia.teatro.api.model.Favorito;
 import com.brasilia.teatro.api.repository.filter.EventoFilter;
 
 public class EventoRepositoryImpl implements EventoRepositoryQuery {
@@ -49,18 +51,35 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 	}
 
 	@Override
-	public List<Evento> filtrar(EventoFilter eventoFilter) {
+	public List<Evento> filtrar(String uid, EventoFilter eventoFilter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
+		CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
 		Root<Evento> root = criteria.from(Evento.class);
+
+		Subquery<Long> scount = criteria.subquery(Long.class);
+		Root<Favorito> sarticolo = scount.from(Favorito.class);
+		scount.select(builder.count(sarticolo));
+		scount.where(builder.equal(sarticolo.get("uid"), uid),
+				builder.equal(sarticolo.get("evento").get("id"), root.get("id")));
+
+		criteria.multiselect(root, builder.selectCase().when(builder.greaterThan(scount, 0L), true).otherwise(false));
 
 		Predicate[] predicates = criarRestricoes(eventoFilter, builder, root);
 		criteria.where(predicates);
 
-		TypedQuery<Evento> query = manager.createQuery(criteria);
+		TypedQuery<Object[]> query = manager.createQuery(criteria);
+		List<Object[]> results = query.getResultList();
+		List<Evento> eventos = new ArrayList<>();
+
+		for (Object[] result : results) {
+			Evento ev = (Evento) result[0];
+			ev.setFavoritado((boolean) result[1]);
+
+			eventos.add(ev);
+		}
 		// adicionarRestricoesDePaginacao(query, pageable);
 
-		return query.getResultList();
+		return eventos;
 	}
 
 	@Override
