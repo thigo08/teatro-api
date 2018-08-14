@@ -21,11 +21,14 @@ http://localhost:8080/swagger-ui.html
 ```
 
 ### Eventos
-- Listar Eventos
+- Listar Eventos (Parâmetro: id usuário logado)
 ``` html
-GET http://localhost:8080/eventos
+GET http://localhost:8080/eventos 
 ```
-- Buscar Evento por ID
+``` html
+GET http://localhost:8080/eventos/listar/{uid}
+```
+- Buscar Evento por ID (Parâmetro: código do evento)
 ``` html
 GET http://localhost:8080/eventos/{codigo}
 ```
@@ -37,16 +40,16 @@ POST http://localhost:8080/eventos
 ``` html
 GET http://localhost:8080/eventos?paginado&size=5&page=0
 ```
-- Listar Eventos Filtrados
+- Listar Eventos Filtrados (Parâmetro: id usuário logado)
 ``` html
-GET http://localhost:8080/eventos?filtrar&nome=evento&descricao=descricao&genero=genero&nomeLocal=nomeLocal&estadoLocal=estadoLocal
+GET http://localhost:8080/eventos/{uid}?filtrar&nome=evento&descricao=descricao&genero=genero&nomeLocal=nomeLocal&estadoLocal=estadoLocal
 ```
 ### Locais
 - Listar Locais
 ``` html
 GET http://localhost:8080/locais
 ```
-- Buscar Local por ID
+- Buscar Local por ID (Parâmetro: código do local)
 ``` html
 GET http://localhost:8080/locais/{codigo}
 ```
@@ -54,7 +57,7 @@ GET http://localhost:8080/locais/{codigo}
 ``` html
 POST http://localhost:8080/locais
 ```
-- Deletar Local
+- Deletar Local (Parâmetro: código do evento)
 ``` html
 DELETE http://localhost:8080/locais/{codigo}
 ```
@@ -76,18 +79,15 @@ PUT http://localhost:8080/usuarios/{id}
 ``` html
 GET http://localhost:8080/favorito
 ```
-
-- Buscar Eventos Favoritados pelo Usuário
+- Buscar Eventos Favoritados pelo Usuário (Parâmetro: id usuário logado)
 ``` html
-GET http://localhost:8080/favorito/{codigo}
+GET http://localhost:8080/favorito/{uid}
 ```
-
 - Inserir Favorito
 ``` html
 POST http://localhost:8080/favorito
 ```
-
-- Deletar Favorito
+- Deletar Favorito (@RequestBody Favorito favorito)
 ``` html
 DELETE http://localhost:8080/favorito
 ```
