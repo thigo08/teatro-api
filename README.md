@@ -28,21 +28,25 @@ GET http://localhost:8080/eventos
 ``` html
 GET http://localhost:8080/eventos/listar/{uid}
 ```
+- Buscar Eventos Favoritados pelo Usuário (Parâmetro: id usuário logado)
+``` html
+GET http://localhost:8080/favorito/{uid}
+```
 - Buscar Evento por ID (Parâmetro: código do evento)
 ``` html
 GET http://localhost:8080/eventos/{codigo}
 ```
-- Inserir Evento
+- Listar Eventos Filtrados (Parâmetro: id usuário logado)
 ``` html
-POST http://localhost:8080/eventos
+GET http://localhost:8080/eventos/{uid}?filtrar&nome=evento&descricao=descricao&genero=genero&nomeLocal=nomeLocal&estadoLocal=estadoLocal
 ```
 - Listar Eventos Paginado
 ``` html
 GET http://localhost:8080/eventos?paginado&size=5&page=0
 ```
-- Listar Eventos Filtrados (Parâmetro: id usuário logado)
+- Inserir Evento
 ``` html
-GET http://localhost:8080/eventos/{uid}?filtrar&nome=evento&descricao=descricao&genero=genero&nomeLocal=nomeLocal&estadoLocal=estadoLocal
+POST http://localhost:8080/eventos
 ```
 ### Locais
 - Listar Locais
@@ -62,6 +66,10 @@ POST http://localhost:8080/locais
 DELETE http://localhost:8080/locais/{codigo}
 ```
 ### Usuários
+- Listar Usuários
+``` html
+GET http://localhost:8080/usuarios
+```
 - Buscar Usuário por ID
 ``` html
 GET http://localhost:8080/usuarios/{codigo}
@@ -78,10 +86,6 @@ PUT http://localhost:8080/usuarios/{id}
 - Listar Favoritos
 ``` html
 GET http://localhost:8080/favorito
-```
-- Buscar Eventos Favoritados pelo Usuário (Parâmetro: id usuário logado)
-``` html
-GET http://localhost:8080/favorito/{uid}
 ```
 - Inserir Favorito
 ``` html
