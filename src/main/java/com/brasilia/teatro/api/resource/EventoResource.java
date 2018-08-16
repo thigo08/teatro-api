@@ -41,6 +41,11 @@ public class EventoResource {
 	public List<Evento> listarEventos(@PathVariable String uid) {
 		return eventoRepository.listarEventos(uid);
 	}
+	
+	@GetMapping("/favoritos/{uid}")
+	public List<Evento> buscarEventosFavoritoPorUsuario(@PathVariable String uid) {
+		return eventoRepository.buscarEventosFavoritoPorUsuario(uid);
+	}
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Evento> buscarPeloCodigo(@PathVariable Long codigo) {

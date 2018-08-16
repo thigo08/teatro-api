@@ -5,55 +5,20 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.brasilia.teatro.api.model.Evento;
 import com.brasilia.teatro.api.model.Favorito;
 
 public class FavoritoRepositoryImpl implements FavoritoRepositoryQuery {
 
 	@PersistenceContext
 	private EntityManager manager;
-
-	@Override
-	public List<Evento> buscarEventosFavoritoPorUsuario(String uid) {
-		TypedQuery<Object[]> query = manager.createQuery(
-				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS fa WHERE fa.uid=:uid and fa.evento.id = ev.id) "
-						+ "FROM Evento AS ev, Favorito as f " 
-						+ "WHERE ev.id=f.evento.id AND f.uid=:uid",
-				Object[].class);
-		query.setParameter("uid", uid);
-
-		List<Object[]> results = query.getResultList();
-		List<Evento> eventos = new ArrayList<>();
-
-		for (Object[] result : results) {
-			Evento ev = (Evento) result[0];
-			ev.setFavoritado((boolean) result[1]);
-
-			eventos.add(ev);
-		}
-		return eventos;
-	}
-
-	@Override
-	@Transactional
-	public void deletar(Favorito favorito) {
-		Favorito favoritoSalvo = this.buscarFavorito(favorito);
-
-		Query query = manager.createNativeQuery("DELETE FROM favorito where id= :id").setParameter("id",
-				favoritoSalvo.getId());
-		query.executeUpdate();
-
-	}
 
 	@Override
 	public Favorito buscarFavorito(Favorito favorito) {

@@ -10,12 +10,14 @@ import com.brasilia.teatro.api.repository.filter.EventoFilter;
 
 public interface EventoRepositoryQuery {
 
-	public Page<Evento> findAllPaged(Pageable pageable);
+	public List<Evento> listarEventos(String uid);
 
-	public List<Evento> buscarPaginado(Pageable pageable);
+	public List<Evento> buscarEventosFavoritoPorUsuario(String codigoUsuario);
 
 	public List<Evento> filtrar(String uid, EventoFilter eventoFilter);
 
-	public List<Evento> listarEventos(String uid);
+	public Page<Evento> findAllPaged(Pageable pageable);
+
+	public List<Evento> buscarPaginado(Pageable pageable);
 
 }

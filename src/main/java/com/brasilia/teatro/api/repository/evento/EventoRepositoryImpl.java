@@ -27,27 +27,42 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 	private EntityManager manager;
 
 	@Override
-	public List<Evento> buscarPaginado(Pageable pageable) {
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
-		Root<Evento> root = criteria.from(Evento.class);
+	public List<Evento> listarEventos(String uid) {
+		TypedQuery<Object[]> query = manager.createQuery(
+				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS f WHERE f.uid=:uid and f.evento.id = ev.id)  FROM Evento AS ev",
+				Object[].class);
+		query.setParameter("uid", uid);
 
-		TypedQuery<Evento> query = manager.createQuery(criteria);
-		adicionarRestricoesDePaginacao(query, pageable);
+		List<Object[]> results = query.getResultList();
+		List<Evento> eventos = new ArrayList<>();
 
-		return query.getResultList();
+		for (Object[] result : results) {
+			Evento ev = (Evento) result[0];
+			ev.setFavoritado((boolean) result[1]);
+
+			eventos.add(ev);
+		}
+		return eventos;
 	}
 
 	@Override
-	public Page<Evento> findAllPaged(Pageable pageable) {
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
-		Root<Evento> root = criteria.from(Evento.class);
+	public List<Evento> buscarEventosFavoritoPorUsuario(String uid) {
+		TypedQuery<Object[]> query = manager.createQuery(
+				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS fa WHERE fa.uid=:uid and fa.evento.id = ev.id) "
+						+ "FROM Evento AS ev, Favorito as f " + "WHERE ev.id=f.evento.id AND f.uid=:uid",
+				Object[].class);
+		query.setParameter("uid", uid);
 
-		TypedQuery<Evento> query = manager.createQuery(criteria);
-		adicionarRestricoesDePaginacao(query, pageable);
+		List<Object[]> results = query.getResultList();
+		List<Evento> eventos = new ArrayList<>();
 
-		return new PageImpl<>(query.getResultList(), pageable, total());
+		for (Object[] result : results) {
+			Evento ev = (Evento) result[0];
+			ev.setFavoritado((boolean) result[1]);
+
+			eventos.add(ev);
+		}
+		return eventos;
 	}
 
 	@Override
@@ -83,22 +98,27 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 	}
 
 	@Override
-	public List<Evento> listarEventos(String uid) {
-		TypedQuery<Object[]> query = manager.createQuery(
-				"SELECT ev , (SELECT CASE WHEN (count(*) > 0) THEN true else false end FROM Favorito AS f WHERE f.uid=:uid and f.evento.id = ev.id)  FROM Evento AS ev",
-				Object[].class);
-		query.setParameter("uid", uid);
+	public Page<Evento> findAllPaged(Pageable pageable) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
+		Root<Evento> root = criteria.from(Evento.class);
 
-		List<Object[]> results = query.getResultList();
-		List<Evento> eventos = new ArrayList<>();
+		TypedQuery<Evento> query = manager.createQuery(criteria);
+		adicionarRestricoesDePaginacao(query, pageable);
 
-		for (Object[] result : results) {
-			Evento ev = (Evento) result[0];
-			ev.setFavoritado((boolean) result[1]);
+		return new PageImpl<>(query.getResultList(), pageable, total());
+	}
 
-			eventos.add(ev);
-		}
-		return eventos;
+	@Override
+	public List<Evento> buscarPaginado(Pageable pageable) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
+		Root<Evento> root = criteria.from(Evento.class);
+
+		TypedQuery<Evento> query = manager.createQuery(criteria);
+		adicionarRestricoesDePaginacao(query, pageable);
+
+		return query.getResultList();
 	}
 
 	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
