@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -31,7 +32,11 @@ public class FavoritoRepositoryImpl implements FavoritoRepositoryQuery {
 
 		TypedQuery<Favorito> query = manager.createQuery(criteria);
 
-		return query.getSingleResult();
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	private Predicate[] criarRestricoes(Favorito favorito, CriteriaBuilder builder, Root<Favorito> root) {
