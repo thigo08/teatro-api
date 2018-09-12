@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,6 +36,9 @@ public class Evento {
 
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
+
+	@Embedded
+	private Informacao informacao;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "evento", cascade = { CascadeType.ALL }, orphanRemoval = true)
@@ -95,6 +99,14 @@ public class Evento {
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
+	}
+
+	public Informacao getInformacao() {
+		return informacao;
+	}
+
+	public void setInformacao(Informacao informacao) {
+		this.informacao = informacao;
 	}
 
 	public void setListaAgenda(List<Agenda> listaAgenda) {
