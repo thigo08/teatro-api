@@ -41,7 +41,7 @@ public class EventoResource {
 	public List<Evento> listarEventos(@PathVariable String uid) {
 		return eventoRepository.listarEventos(uid);
 	}
-	
+
 	@GetMapping("/favoritos/{uid}")
 	public List<Evento> buscarEventosFavoritoPorUsuario(@PathVariable String uid) {
 		return eventoRepository.buscarEventosFavoritoPorUsuario(uid);
@@ -55,7 +55,11 @@ public class EventoResource {
 
 	@GetMapping(value = "/{uid}", params = "filtrar")
 	public List<Evento> listarEventoFiltro(@PathVariable String uid, EventoFilter eventoFilter) {
-		return eventoRepository.filtrar(uid, eventoFilter);
+		if (uid.equals("x")) {
+			return eventoRepository.filtrar(eventoFilter);
+		} else {
+			return eventoRepository.filtrarComUsuarioLogado(uid, eventoFilter);
+		}
 	}
 
 	@GetMapping(params = "peagle")

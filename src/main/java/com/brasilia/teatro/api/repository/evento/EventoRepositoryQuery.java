@@ -14,7 +14,9 @@ public interface EventoRepositoryQuery {
 
 	public List<Evento> buscarEventosFavoritoPorUsuario(String codigoUsuario);
 
-	public List<Evento> filtrar(String uid, EventoFilter eventoFilter);
+	public List<Evento> filtrar(EventoFilter eventoFilter);
+
+	public List<Evento> filtrarComUsuarioLogado(String uid, EventoFilter eventoFilter);
 
 	public Page<Evento> findAllPaged(Pageable pageable);
 

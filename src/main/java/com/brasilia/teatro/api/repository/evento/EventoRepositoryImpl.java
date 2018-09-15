@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import com.brasilia.teatro.api.model.Evento;
 import com.brasilia.teatro.api.model.Favorito;
+import com.brasilia.teatro.api.model.Genero;
 import com.brasilia.teatro.api.repository.filter.EventoFilter;
 
 public class EventoRepositoryImpl implements EventoRepositoryQuery {
@@ -66,7 +67,8 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 	}
 
 	@Override
-	public List<Evento> filtrar(String uid, EventoFilter eventoFilter) {
+	public List<Evento> filtrarComUsuarioLogado(String uid, EventoFilter eventoFilter) {
+		this.removerSelecaoTodos(eventoFilter);
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
 		Root<Evento> root = criteria.from(Evento.class);
@@ -95,6 +97,23 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 		// adicionarRestricoesDePaginacao(query, pageable);
 
 		return eventos;
+	}
+
+	@Override
+	public List<Evento> filtrar(EventoFilter eventoFilter) {
+		this.removerSelecaoTodos(eventoFilter);
+
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
+		Root<Evento> root = criteria.from(Evento.class);
+
+		Predicate[] predicates = criarRestricoes(eventoFilter, builder, root);
+		criteria.where(predicates);
+
+		TypedQuery<Evento> query = manager.createQuery(criteria);
+		// adicionarRestricoesDePaginacao(query, pageable);
+
+		return query.getResultList();
 	}
 
 	@Override
@@ -167,6 +186,17 @@ public class EventoRepositoryImpl implements EventoRepositoryQuery {
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);
+	}
+
+	private void removerSelecaoTodos(EventoFilter eventoFilter) {
+		if (eventoFilter.getNomeLocal().equals("Todos")) {
+			eventoFilter.setNomeLocal(null);
+		}
+
+		if (eventoFilter.getGenero().equals(Genero.TODOS)) {
+			eventoFilter.setGenero(null);
+		}
+
 	}
 
 }

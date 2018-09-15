@@ -2,6 +2,7 @@ package com.brasilia.teatro.api.model;
 
 public enum Genero {
 
+	TODOS("Todos"),
 	COMEDIA("Comédia"), 
 	DRAMA("Drama"), 
 	INFANTIL("Infantil"), 
